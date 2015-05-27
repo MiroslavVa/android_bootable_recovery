@@ -80,7 +80,7 @@
 #endif
 
 extern struct selabel_handle *sehandle;
-int signature_check_enabled = 1;
+int signature_check_enabled = 0;
 
 typedef struct {
     char mount[255];
