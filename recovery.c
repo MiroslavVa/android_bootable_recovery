@@ -1059,6 +1059,8 @@ main(int argc, char **argv) {
             continue;
         }
     }
+    // MiVa: Fixed faktory reset on f2fs /data partition
+    optind = 1;
 
     struct selinux_opt seopts[] = {
       { SELABEL_OPT_PATH, "/file_contexts" }
