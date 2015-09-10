@@ -1810,40 +1810,44 @@ int verify_root_and_recovery() {
         }
     }
 
-    int exists = 0;
-    if (0 == lstat("/system/bin/su", &st)) {
-        exists = 1;
-        if (S_ISREG(st.st_mode)) {
-            if ((st.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID)) {
-                ui_show_text(1);
-                ret = 1;
-                if (confirm_selection("Root access possibly lost. Fix?", "Yes - Fix root (/system/bin/su)")) {
-                    __system("chmod 6755 /system/bin/su");
-                }
-            }
-        }
-    }
+    // MiVa: Skipp Root check and root installation
+    LOGI("MiVa: Skipping root access check and root installation.\n");
+    ui_print("Skipping root access check and root installation.\n");
 
-    if (0 == lstat("/system/xbin/su", &st)) {
-        exists = 1;
-        if (S_ISREG(st.st_mode)) {
-            if ((st.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID)) {
-                ui_show_text(1);
-                ret = 1;
-                if (confirm_selection("Root access possibly lost. Fix?", "Yes - Fix root (/system/xbin/su)")) {
-                    __system("chmod 6755 /system/xbin/su");
-                }
-            }
-        }
-    }
+    //MiVa  int exists = 0;
+    //MiVa  if (0 == lstat("/system/bin/su", &st)) {
+    //MiVa      exists = 1;
+    //MiVa      if (S_ISREG(st.st_mode)) {
+    //MiVa          if ((st.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID)) {
+    //MiVa              ui_show_text(1);
+    //MiVa              ret = 1;
+    //MiVa              if (confirm_selection("Root access possibly lost. Fix?", "Yes - Fix root (/system/bin/su)")) {
+    //MiVa                  __system("chmod 6755 /system/bin/su");
+    //MiVa              }
+    //MiVa          }
+    //MiVa      }
+    //MiVa  }
 
-    if (!exists) {
-        ui_show_text(1);
-        ret = 1;
-        if (confirm_selection("Root access is missing. Root device?", "Yes - Root device (/system/xbin/su)")) {
-            __system("/sbin/install-su.sh");
-        }
-    }
+    //MiVa  if (0 == lstat("/system/xbin/su", &st)) {
+    //MiVa      exists = 1;
+    //MiVa      if (S_ISREG(st.st_mode)) {
+    //MiVa          if ((st.st_mode & (S_ISUID | S_ISGID)) != (S_ISUID | S_ISGID)) {
+    //MiVa              ui_show_text(1);
+    //MiVa              ret = 1;
+    //MiVa              if (confirm_selection("Root access possibly lost. Fix?", "Yes - Fix root (/system/xbin/su)")) {
+    //MiVa                  __system("chmod 6755 /system/xbin/su");
+    //MiVa              }
+    //MiVa          }
+    //MiVa      }
+    //MiVa  }
+
+    //MiVa  if (!exists) {
+    //MiVa      ui_show_text(1);
+    //MiVa      ret = 1;
+    //MiVa      if (confirm_selection("Root access is missing. Root device?", "Yes - Root device (/system/xbin/su)")) {
+    //MiVa          __system("/sbin/install-su.sh");
+    //MiVa      }
+    //MiVa  }
 
     ensure_path_unmounted("/system");
     return ret;
